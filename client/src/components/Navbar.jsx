@@ -6,6 +6,8 @@ export default function Navbar({ onMenu }) {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
+  if (!user) return null;   // <-- add this line
+
   const handleLogout = async () => {
     await logout();
     navigate('/login', { replace: true });
