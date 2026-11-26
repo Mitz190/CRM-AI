@@ -1,33 +1,51 @@
-import { useEffect, useState } from 'react';
-import api from './services/api';
+import { Navigate, Route, Routes } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import ProtectedRoute from './routes/ProtectedRoute';
+import GuestRoute from './routes/GuestRoute';
+import AuthLayout from './layouts/AuthLayout';
+import AppLayout from './layouts/AppLayout';
+import { navItems } from './utils/navigation';
+
+import Login from './pages/Login';
+import Register from './pages/Register';
+import ForgotPassword from './pages/ForgotPassword';
+import ResetPassword from './pages/ResetPassword';
+import Dashboard from './pages/Dashboard';
+import Profile from './pages/Profile';
+import TeamManagement from './pages/TeamManagement';
+import ComingSoon from './pages/ComingSoon';
+import NotFound from './pages/NotFound';
 
 export default function App() {
-  const [health, setHealth] = useState(null);
-  const [error, setError] = useState('');
-
-  useEffect(() => {
-    api.get('/health').then((res) => setHealth(res.data)).catch((e) => setError(e.userMessage));
-  }, []);
-
   return (
-    <main className="min-h-screen flex items-center justify-center p-6">
-      <div className="bg-white rounded-xl2 shadow-card p-8 max-w-md w-full">
-        <span className="inline-block text-xs font-semibold bg-lavender text-violet-700 px-3 py-1 rounded-full">
-          Module 0 · Foundation
-        </span>
-        <h1 className="mt-4 text-3xl font-bold text-violet-700">ClientIQ</h1>
-        <p className="text-slate-500 mt-1">AI-enabled CRM &amp; customer intelligence</p>
+    <AuthProvider>
+      <Routes>
+        <Route element={<GuestRoute />}>
+          <Route element={<AuthLayout />}>
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/forgot-password" element={<ForgotPassword />} />
+            <Route path="/reset-password/:token" element={<ResetPassword />} />
+          </Route>
+        </Route>
 
-        <div className="mt-6 rounded-xl bg-canvas p-4 text-sm">
-          {error && <p className="text-peach-500">API error: {error}</p>}
-          {!error && !health && <p className="text-slate-400">Checking API…</p>}
-          {health && (
-            <p className="text-mint-500 font-medium">
-              API {health.status} · database {health.database}
-            </p>
-          )}
-        </div>
-      </div>
-    </main>
+        <Route element={<ProtectedRoute />}>
+          <Route element={<AppLayout />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/profile" element={<Profile />} />
+            {/* Sections for later modules, clearly marked as future features */}
+            {navItems.filter((i) => i.module).map((i) => (
+              <Route key={i.to} path={i.to} element={<ComingSoon title={i.label} module={i.module} />} />
+            ))}
+            <Route element={<ProtectedRoute roles={['admin']} />}>
+              <Route path="/team" element={<TeamManagement />} />
+            </Route>
+          </Route>
+        </Route>
+
+        <Route path="/" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
+    </AuthProvider>
   );
 }

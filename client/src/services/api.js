@@ -6,11 +6,14 @@ const api = axios.create({
   withCredentials: true,
 });
 
-// Normalize error messages so UI components can show them directly.
 api.interceptors.response.use(
   (res) => res,
   (error) => {
     error.userMessage = error.response?.data?.message || 'Network error. Please try again.';
+    // An expired session on any request except login logs the user out in AuthContext.
+    if (error.response?.status === 401 && !error.config?.url?.startsWith('/auth/login')) {
+      window.dispatchEvent(new Event('auth:expired'));
+    }
     return Promise.reject(error);
   }
 );

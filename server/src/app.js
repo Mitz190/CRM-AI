@@ -8,6 +8,9 @@ const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
 
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+
 const { isProd, clientUrl } = require('./config/env');
 const healthRoutes = require('./routes/healthRoutes');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
@@ -31,6 +34,11 @@ app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, max: 300, standardHeaders:
 app.use('/api/health', healthRoutes);
 // Future modules mount here, e.g. app.use('/api/auth', authRoutes);
 app.use('/api', notFound); // unknown /api routes return JSON 404
+
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
+// Future modules mount here
+
 
 // --- React production build + client-side routing fallback ---
 const clientDist = path.resolve(__dirname, '../../client/dist');

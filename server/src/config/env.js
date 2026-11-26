@@ -21,4 +21,12 @@ module.exports = {
   mongoUri: process.env.MONGODB_URI,
   jwtSecret: process.env.JWT_SECRET || 'dev-only-secret-change-me',
   jwtExpiresIn: process.env.JWT_EXPIRES_IN || '7d',
+  jwtCookieDays: Number(process.env.JWT_COOKIE_DAYS) || 7,
+  smtp: {
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT) || 587,
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS,
+  },
+  emailFrom: process.env.EMAIL_FROM,
 };
