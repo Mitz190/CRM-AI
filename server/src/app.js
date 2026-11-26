@@ -13,6 +13,7 @@ const userRoutes = require('./routes/userRoutes');
 
 const { isProd, clientUrl } = require('./config/env');
 const healthRoutes = require('./routes/healthRoutes');
+const dashboardRoutes = require('./routes/dashboardRoutes');
 const { notFound, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
@@ -36,7 +37,7 @@ app.use('/api/health', healthRoutes);
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 // Future modules mount here
-
+app.use('/api/dashboard', dashboardRoutes);
 
 // Future modules mount here, e.g. app.use('/api/auth', authRoutes);
 app.use('/api', notFound); // unknown /api routes return JSON 404
