@@ -32,12 +32,14 @@ if (!isProd) app.use(morgan('dev'));
 // --- API ---
 app.use('/api', rateLimit({ windowMs: 15 * 60 * 1000, max: 300, standardHeaders: true, legacyHeaders: false }));
 app.use('/api/health', healthRoutes);
-// Future modules mount here, e.g. app.use('/api/auth', authRoutes);
-app.use('/api', notFound); // unknown /api routes return JSON 404
 
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 // Future modules mount here
+
+
+// Future modules mount here, e.g. app.use('/api/auth', authRoutes);
+app.use('/api', notFound); // unknown /api routes return JSON 404
 
 
 // --- React production build + client-side routing fallback ---

@@ -4,8 +4,8 @@ import { useAuth } from '../hooks/useAuth';
 
 export default function Sidebar({ open, onClose }) {
   const { user } = useAuth();
+  if (!user) return null;
   const items = navItems.filter((item) => !item.roles || item.roles.includes(user.role));
-
   return (
     <>
       {open && <div className="fixed inset-0 z-30 bg-slate-900/30 lg:hidden" onClick={onClose} />}
