@@ -17,6 +17,9 @@ const normalize = (err) => {
   if (err.name === 'JsonWebTokenError' || err.name === 'TokenExpiredError') {
     return new AppError('Invalid or expired token. Please log in again.', 401);
   }
+    if (err.name === 'MulterError') {
+    return new AppError(err.code === 'LIMIT_FILE_SIZE' ? 'File is too large (max 1 MB).' : err.message, 400);
+  }
   return err;
 };
 

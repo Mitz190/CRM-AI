@@ -7,6 +7,7 @@ const compression = require('compression');
 const cookieParser = require('cookie-parser');
 const mongoSanitize = require('express-mongo-sanitize');
 const rateLimit = require('express-rate-limit');
+const customerRoutes = require('./routes/customerRoutes');
 
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
@@ -38,6 +39,7 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 // Future modules mount here
 app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/customers', customerRoutes);
 
 // Future modules mount here, e.g. app.use('/api/auth', authRoutes);
 app.use('/api', notFound); // unknown /api routes return JSON 404

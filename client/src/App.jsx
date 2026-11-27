@@ -15,6 +15,8 @@ import Profile from './pages/Profile';
 import TeamManagement from './pages/TeamManagement';
 import ComingSoon from './pages/ComingSoon';
 import NotFound from './pages/NotFound';
+import Customers from './pages/Customers';
+import CustomerDetail from './pages/CustomerDetail';
 
 export default function App() {
   return (
@@ -33,6 +35,8 @@ export default function App() {
           <Route element={<AppLayout />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/customers" element={<Customers />} />
+            <Route path="/customers/:id" element={<CustomerDetail />} />
             {/* Sections for later modules, clearly marked as future features */}
             {navItems.filter((i) => i.module).map((i) => (
               <Route key={i.to} path={i.to} element={<ComingSoon title={i.label} module={i.module} />} />

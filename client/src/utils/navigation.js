@@ -5,7 +5,7 @@ import {
 
 export const navItems = [
   { label: 'Dashboard', to: '/dashboard', icon: LayoutDashboard },
-  { label: 'Customers', to: '/customers', icon: Users, module: 'Module 3' },
+  { label: 'Customers', to: '/customers', icon: Users },
   { label: 'Leads', to: '/leads', icon: Target, module: 'Module 4' },
   { label: 'Sales Pipeline', to: '/pipeline', icon: Kanban, module: 'Module 5' },
   { label: 'Activities & Tasks', to: '/activities', icon: CalendarCheck, module: 'Module 6' },
